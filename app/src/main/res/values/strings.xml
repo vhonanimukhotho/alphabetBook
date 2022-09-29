@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Alphabet Book</string>
+
     <string name="Aa">Aa</string>
     <string name="Bb">Bb</string>
     <string name="Cc">Cc</string>
@@ -32,4 +33,54 @@
     <string name="buttonNext">Next</string>
     <string name="buttonOverview">Overview Page</string>
     <string name="todo">TODO</string>
+    <string name="home">Home</string>
+    <string name="settings">Settings</string>
+    <string name="select_voice">Select voice</string>
+    <string name="select_image">Select an image</string>
+    <string name="select">Select</string>
+
+    <string-array name="voices">
+        <item>Voice A</item>
+        <item>Voice B</item>
+        <item>Voice C</item>
+        <item>Voice D</item>
+    </string-array>
+
+    <string-array name="alphabets">
+        <item>Aa</item>
+        <item>Bb</item>
+        <item>Cc</item>
+        <item>Dd</item>
+        <item>Ee</item>
+        <item>Ff</item>
+        <item>Gg</item>
+        <item>Hh</item>
+        <item>Ii</item>
+        <item>Jj</item>
+        <item>Kk</item>
+        <item>Ll</item>
+        <item>Mm</item>
+        <item>Nn</item>
+        <item>Oo</item>
+        <item>Pp</item>
+        <item>Qq</item>
+        <item>Rr</item>
+        <item>Ss</item>
+        <item>Tt</item>
+        <item>Uu</item>
+        <item>Vv</item>
+        <item>Ww</item>
+        <item>Xx</item>
+        <item>Yy</item>
+        <item>Zz</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="speak">speak</string>
+    <string name="download">download</string>
+    <string name="share">share</string>
+    <string name="image_setting">Image Setting</string>
+    <string name="pronunciation_settings">Pronunciation Settings</string>
+    <string name="select_language">Select language</string>
+    <string name="select_speed">Select speed</string>
 </resources>

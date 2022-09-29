@@ -2,33 +2,44 @@ package com.cscmdd.alphabetbook
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageSwitcher
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import java.util.*
 
 //import android.widget.ViewSwitcher
 
 class LetterActivity : AppCompatActivity() {
 
-    //private val images = intArrayOf(R.drawable.ic_launcher_background,
-        //R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_background)
-      val images = intArrayOf(R.drawable.slide01, R.drawable.slide02, R.drawable.slide03,
+
+    lateinit var tts : TextToSpeech
+
+    val images = intArrayOf(R.drawable.slide01, R.drawable.slide02, R.drawable.slide03,
         R.drawable.slide04, R.drawable.slide05, R.drawable.slide06, R.drawable.slide07,
         R.drawable.slide08, R.drawable.slide09, R.drawable.slide10, R.drawable.slide11,
         R.drawable.slide12, R.drawable.slide13, R.drawable.slide14, R.drawable.slide15,
         R.drawable.slide16, R.drawable.slide17, R.drawable.slide18, R.drawable.slide19,
         R.drawable.slide20, R.drawable.slide21, R.drawable.slide22, R.drawable.slide23,
         R.drawable.slide24, R.drawable.slide25, R.drawable.slide26)
+
+    val letters = arrayOf("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z")
     private var position: Int = 0
+    var  count :Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_letter_page)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Letter"
+
+        val speakButton = findViewById<ImageButton>(R.id.speakButton)
+        val shareButton = findViewById<ImageButton>(R.id.shareButton)
+        val downloadButton = findViewById<ImageButton>(R.id.downloadButton)
+        val settingButton = findViewById<ImageButton>(R.id.settingsButton)
 
         val next = findViewById<ImageButton>(R.id.buttonNext)
         val prev = findViewById<ImageButton>(R.id.buttonPrev)
@@ -39,6 +50,7 @@ class LetterActivity : AppCompatActivity() {
 
         val clickedPosition = intent.extras?.get("POSITION") as Int
         position = clickedPosition
+        count = position
         imageSwitcher?.setFactory{
             val imageView = ImageView(applicationContext)
             imageView
@@ -135,5 +147,40 @@ class LetterActivity : AppCompatActivity() {
 
         firstPage.isEnabled = position != 0
         lastPage.isEnabled = position != images.size-1
+
+        // speak button functionality
+        speakButton.setOnClickListener{
+            tts = TextToSpeech(applicationContext, TextToSpeech.OnInitListener {
+                if(it==TextToSpeech.SUCCESS){
+                    tts.language = Locale.UK
+                    tts.setSpeechRate(1.0f)
+                    tts.speak(letters[position], TextToSpeech.QUEUE_FLUSH, null)
+                }
+            })
+        }
+
+        // share image button functionality
+        // image to be shared = images[position]
+        shareButton.setOnClickListener {
+
+        }
+
+        // save image button functionality
+        // image to be saved = images[position]
+        downloadButton.setOnClickListener {
+
+        }
+
+        // setting button functionality
+        settingButton.setOnClickListener {
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+        }
+
     }
+
+
+
+
+
 }
