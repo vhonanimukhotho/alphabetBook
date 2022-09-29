@@ -9,14 +9,15 @@ import android.widget.Spinner
 
 class SettingActivity : AppCompatActivity() {
 
-    val toPickerButton = findViewById<ImageButton>(R.id.toPickerButton)
-    val languageSpinner = findViewById<Spinner>(R.id.languageSpinner)
-    val voiceSpinner = findViewById<Spinner>(R.id.voiceSpinner)
-    val speedSpinner = findViewById<Spinner>(R.id.speedSpinner)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
+
+        val toPickerButton = findViewById<ImageButton>(R.id.toPickerButton)
+        val languageSpinner = findViewById<Spinner>(R.id.languageSpinner)
+        val voiceSpinner = findViewById<Spinner>(R.id.voiceSpinner)
+        val speedSpinner = findViewById<Spinner>(R.id.speedSpinner)
 
         // toPicker page button functionality
         toPickerButton.setOnClickListener {

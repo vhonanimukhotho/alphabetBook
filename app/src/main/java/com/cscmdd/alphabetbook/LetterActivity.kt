@@ -173,7 +173,7 @@ class LetterActivity : AppCompatActivity() {
 
         // setting button functionality
         settingButton.setOnClickListener {
-            val intent = Intent(this, SettingActivity::class.java)
+            val intent = Intent(this, ImagePickerActivity::class.java)
             startActivity(intent)
         }
 

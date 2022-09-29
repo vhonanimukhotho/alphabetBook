@@ -83,4 +83,8 @@
     <string name="pronunciation_settings">Pronunciation Settings</string>
     <string name="select_language">Select language</string>
     <string name="select_speed">Select speed</string>
+    <string name="select_photo">select photo</string>
+    <string name="choose_language">choose language</string>
+    <string name="choose_voice">choose voice</string>
+    <string name="choose_speed">choose speed</string>
 </resources>
