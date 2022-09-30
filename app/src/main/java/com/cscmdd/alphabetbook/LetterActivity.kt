@@ -1,14 +1,19 @@
 package com.cscmdd.alphabetbook
 
+import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.speech.tts.TextToSpeech
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageSwitcher
-import android.widget.ImageView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import java.io.File
+import java.io.OutputStream
 import java.util.*
 
 //import android.widget.ViewSwitcher
@@ -168,17 +173,41 @@ class LetterActivity : AppCompatActivity() {
         // save image button functionality
         // image to be saved = images[position]
         downloadButton.setOnClickListener {
-
+            val bitmap = BitmapFactory.decodeResource(resources,images[position])
+            saveImage(bitmap)
         }
 
         // setting button functionality
         settingButton.setOnClickListener {
-            val intent = Intent(this, ImagePickerActivity::class.java)
+            val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
         }
 
     }
 
+    private  fun saveImage(bitmap: Bitmap){
+        val outputStream: OutputStream
+        try {
+            if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.Q){
+                val resolver = contentResolver
+                val contentValues = ContentValues()
+                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME,"slide"+".jpg")
+                contentValues.put(MediaStore.MediaColumns.MIME_TYPE,"Image/jpg")
+                contentValues.put(
+                    MediaStore.MediaColumns.RELATIVE_PATH,
+                    Environment.DIRECTORY_PICTURES+ File.separator+"hid")
+                val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues)
+                outputStream = resolver.openOutputStream(Objects.requireNonNull(imageUri)!!)!!
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream)
+                Objects.requireNonNull<OutputStream>(outputStream)
+                Toast.makeText(this,"Image downloaded", Toast.LENGTH_SHORT).show()
+
+            }
+        }catch (e : Exception){
+            Toast.makeText(this,"Image not downloaded", Toast.LENGTH_SHORT).show()
+
+        }
+    }
 
 
 
