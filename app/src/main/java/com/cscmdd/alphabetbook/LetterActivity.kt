@@ -1,9 +1,12 @@
 package com.cscmdd.alphabetbook
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -13,6 +16,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.io.File
+import java.io.FileOutputStream
 import java.io.OutputStream
 import java.util.*
 
@@ -35,6 +39,7 @@ class LetterActivity : AppCompatActivity() {
     private var position: Int = 0
     var  count :Int = 0
 
+    @SuppressLint("SetWorldReadable")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_letter_page)
@@ -167,7 +172,18 @@ class LetterActivity : AppCompatActivity() {
         // share image button functionality
         // image to be shared = images[position]
         shareButton.setOnClickListener {
+            val bitmap = BitmapFactory.decodeResource(resources,images[position])
 
+            val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "tempimage", null )
+            val uri = Uri.parse(path)
+
+
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type= ("image/*")
+            intent.putExtra(Intent.EXTRA_STREAM,uri)
+
+            // val bitmap = imgV.drawable.toBitmap()
+            startActivity(Intent.createChooser(intent,"Share Image via"))
         }
 
         // save image button functionality
