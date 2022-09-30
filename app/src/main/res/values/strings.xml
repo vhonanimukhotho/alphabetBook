@@ -87,4 +87,5 @@
     <string name="choose_language">choose language</string>
     <string name="choose_voice">choose voice</string>
     <string name="choose_speed">choose speed</string>
+    <string name="save">Save</string>
 </resources>

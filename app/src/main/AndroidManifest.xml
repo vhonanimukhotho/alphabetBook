@@ -20,14 +20,16 @@
         tools:targetApi="m">
         <activity
             android:name=".ImagePickerActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".SettingActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".SettingActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".LetterActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

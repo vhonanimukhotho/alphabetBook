@@ -4,10 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageSwitcher
-import android.widget.ImageView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
@@ -34,7 +31,7 @@ class LetterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_letter_page)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Letter"
+        supportActionBar?.title = "Alphabet"
 
         val speakButton = findViewById<ImageButton>(R.id.speakButton)
         val shareButton = findViewById<ImageButton>(R.id.shareButton)
@@ -50,6 +47,7 @@ class LetterActivity : AppCompatActivity() {
 
         val clickedPosition = intent.extras?.get("POSITION") as Int
         position = clickedPosition
+        MyGlobalVars.currentImageIndex= position
         count = position
         imageSwitcher?.setFactory{
             val imageView = ImageView(applicationContext)
@@ -80,6 +78,8 @@ class LetterActivity : AppCompatActivity() {
                 next.setVisibility(View.VISIBLE)
                 lastPage.isEnabled = true
             }
+
+            MyGlobalVars.currentImageIndex= position
         }
         // next button functionality
         next.setOnClickListener {
@@ -102,6 +102,8 @@ class LetterActivity : AppCompatActivity() {
                 next.setVisibility(View.VISIBLE)
                 lastPage.isEnabled = true
             }
+
+            MyGlobalVars.currentImageIndex= position
         }
 
         // first Page button functionality
@@ -114,6 +116,8 @@ class LetterActivity : AppCompatActivity() {
 
             next.setVisibility(View.VISIBLE)
             lastPage.isEnabled = true
+
+            MyGlobalVars.currentImageIndex= position
         }
 
         // last Page button functionality
@@ -126,6 +130,8 @@ class LetterActivity : AppCompatActivity() {
 
             prev.setVisibility(View.VISIBLE)
             firstPage.isEnabled = true
+
+            MyGlobalVars.currentImageIndex= position
         }
 
         // overview Page button functionality
@@ -148,12 +154,16 @@ class LetterActivity : AppCompatActivity() {
         firstPage.isEnabled = position != 0
         lastPage.isEnabled = position != images.size-1
 
+
+
         // speak button functionality
         speakButton.setOnClickListener{
             tts = TextToSpeech(applicationContext, TextToSpeech.OnInitListener {
                 if(it==TextToSpeech.SUCCESS){
-                    tts.language = Locale.UK
-                    tts.setSpeechRate(1.0f)
+                    val myLanguage = MyGlobalVars.myLanguage
+                    tts.language = myLanguage
+                    val mySpeed = MyGlobalVars.mySpeed
+                    tts.setSpeechRate(mySpeed)
                     tts.speak(letters[position], TextToSpeech.QUEUE_FLUSH, null)
                 }
             })
@@ -173,7 +183,7 @@ class LetterActivity : AppCompatActivity() {
 
         // setting button functionality
         settingButton.setOnClickListener {
-            val intent = Intent(this, ImagePickerActivity::class.java)
+            val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
         }
 
