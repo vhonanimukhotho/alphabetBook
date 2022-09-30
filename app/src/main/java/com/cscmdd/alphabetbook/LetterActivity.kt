@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -43,7 +44,7 @@ class LetterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_letter_page)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.title = "Alphabet"
 
         val speakButton = findViewById<ImageButton>(R.id.speakButton)
@@ -116,6 +117,7 @@ class LetterActivity : AppCompatActivity() {
                 lastPage.isEnabled = true
             }
 
+            Log.e("TTS", MyGlobalVars.myLanguageKey)
             MyGlobalVars.currentImageIndex= position
         }
 
@@ -175,9 +177,15 @@ class LetterActivity : AppCompatActivity() {
                 if(it==TextToSpeech.SUCCESS){
                     val myLanguage = MyGlobalVars.myLanguage
                     tts.language = myLanguage
+                    val result = tts.setLanguage(myLanguage)
+                    if(result==TextToSpeech.LANG_MISSING_DATA || result==TextToSpeech.LANG_NOT_SUPPORTED){
+                        Log.e("TTSLanguage","Language not supported")
+                    }
                     val mySpeed = MyGlobalVars.mySpeed
                     tts.setSpeechRate(mySpeed)
                     tts.speak(letters[position], TextToSpeech.QUEUE_FLUSH, null)
+                }else{
+                    Log.e("TTS","Initialization failed")
                 }
             })
         }
@@ -224,7 +232,7 @@ class LetterActivity : AppCompatActivity() {
                 contentValues.put(MediaStore.MediaColumns.MIME_TYPE,"Image/jpg")
                 contentValues.put(
                     MediaStore.MediaColumns.RELATIVE_PATH,
-                    Environment.DIRECTORY_PICTURES+ File.separator+"hid")
+                    Environment.DIRECTORY_PICTURES+ File.separator+"aphabetBook")
                 val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues)
                 outputStream = resolver.openOutputStream(Objects.requireNonNull(imageUri)!!)!!
                 bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream)

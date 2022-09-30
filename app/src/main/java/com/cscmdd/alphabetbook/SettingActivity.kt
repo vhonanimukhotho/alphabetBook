@@ -18,13 +18,14 @@ class SettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.title = "Settings"
 
-        val languages = arrayOf("English-UK","English-US","Chinese","Canada-French","France-French","Germany-German","Italy-Italian","Japan-Japanese","Korea-Korean","Simplified Chinese","Traditional Chinese")
-        //val languagesMap = mutableMapOf("English-Uk" to Locale.UK, "English-US" to Locale.US,"Chinese" to Locale.CHINESE,"Canada-French" to Locale.CANADA_FRENCH,"France-French" to Locale.FRENCH,"Germany-German" to Locale.GERMAN,"Italy-Italian" to Locale.ITALIAN,"Japan-Japanese" to Locale.JAPANESE,"Korea-Korean" to Locale.KOREAN,"Simplified Chinese" to Locale.SIMPLIFIED_CHINESE,"Traditional Chinese" to Locale.TRADITIONAL_CHINESE)
+        //val languages = arrayOf("English-UK","English-US","Chinese","Canada-French","France-French","Germany-German","Italy-Italian","Japan-Japanese","Korea-Korean","Simplified Chinese","Traditional Chinese")
+        //val languagesMap = mutableMapOf<String, Locale>("English-Uk" to Locale.UK, "English-US" to Locale.US,"Chinese" to Locale.CHINESE,"Canada-French" to Locale.CANADA_FRENCH,"France-French" to Locale.FRENCH,"Germany-German" to Locale.GERMAN,"Italy-Italian" to Locale.ITALIAN,"Japan-Japanese" to Locale.JAPANESE,"Korea-Korean" to Locale.KOREAN,"Simplified Chinese" to Locale.SIMPLIFIED_CHINESE,"Traditional Chinese" to Locale.TRADITIONAL_CHINESE)
+        val languages = arrayOf("English-UK","English-US")
 
-        val voices = arrayOf("Female","Male",)
+        val voices = arrayOf("Female","Male")
         //val voicesMap = mutableMapOf("Female" to 1, "Male" to 2)
 
         val speeds = arrayOf("Slower","Slow","Normal","Fast","Faster")
@@ -39,10 +40,20 @@ class SettingActivity : AppCompatActivity() {
         //Language Spinner
         val languageArrayAdapter = ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, languages)
         languageSpinner.adapter = languageArrayAdapter
+        val selectedLangPos = languages.indexOf(MyGlobalVars.myLanguageKey)
+        languageSpinner.setSelection(selectedLangPos)
         languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val selectedLang = languages[p2]
-                //MyGlobalVars.myLanguage = languagesMap[selectedLang]!!
+                if(selectedLang==="English-UK"){
+                    MyGlobalVars.myLanguage = Locale.UK
+                    MyGlobalVars.myLanguageKey = "English-UK"
+                }else{
+                    MyGlobalVars.myLanguage = Locale.US
+                    MyGlobalVars.myLanguageKey = "English-US"
+                }
+
+
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 TODO("Not yet implemented")
@@ -73,7 +84,7 @@ class SettingActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val selectedSpeed = speeds[p2]
                 MyGlobalVars.mySpeed = speedsMap[selectedSpeed]!!
-                MyGlobalVars.mySpeedKey = speeds[p2]!!
+                MyGlobalVars.mySpeedKey = speeds[p2]
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 TODO("Not yet implemented")
